@@ -63,7 +63,7 @@ app.get('/start/:storyline', function(req, res){
 });
 
 app.get('/reset/:storyline', function(req, res){
-	console.log('reset called');
+	console.log('Index.js: Reset called');
 	// check if storyline exists
     if(storylines[req.params.storyline])
     {

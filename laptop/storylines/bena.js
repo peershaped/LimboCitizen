@@ -145,14 +145,14 @@ module.exports = [  /** Mufti **/
     },
     {
        "frame":"stoploop",
-       "reader":2, // moet 2 zijn
+       "reader":5, // moet 2 zijn
        "stoplamp":"",
        "stopaudio":true,
        "stopvideo":"",
        "lamp":{
-           "id":3,
-           "box":0,
-           "state":0,
+           "id":"",
+           "box":"",
+           "state":"",
            "startdelay":"",
            "duration":""
        },
@@ -248,7 +248,7 @@ module.exports = [  /** Mufti **/
     },
     {
        "frame":"stoploop",
-       "reader":3, 
+       "reader":9, 
        "stoplamp":"",
        "stopaudio":true,
        "stopvideo":"",
@@ -299,13 +299,13 @@ module.exports = [  /** Mufti **/
             "duration":""
         },
         "audio":{
-            "id":"3", //03mufti.mp3",
+            "id":"14", //03mufti.mp3",
             "startdelay":"",
             "duration":"",
             "untilfinish":true
         },
         "video":{
-            "beamer":5,
+            "beamer":"3",
             "file": "01mufti.mp4",
             "startdelay":"",
             "duration":"",
@@ -350,7 +350,7 @@ module.exports = [  /** Mufti **/
     },
     {
        "frame":"stoploop",
-       "reader":10,
+       "reader":7,
        "stoplamp":"",
        "stopaudio":true,
        "stopvideo":"",
@@ -401,7 +401,7 @@ module.exports = [  /** Mufti **/
             "duration":10
         },
         "audio": {
-            "id": "4", //04mufti.mp3",
+            "id": "14", //04mufti.mp3",
             "startdelay": "",
             "duration": "",
             "untilfinish": true
@@ -417,8 +417,7 @@ module.exports = [  /** Mufti **/
         },
         "numpad":"",
         "triggernext":true
-    },
-    
+    },   
     
     { //// START LOOP tussen 5 en 6 ///////
         "frame":'startloop',
@@ -453,7 +452,7 @@ module.exports = [  /** Mufti **/
     },
     {
        "frame":"stoploop",
-       "reader":15,
+       "reader":13,
        "stoplamp":"",
        "stopaudio":true,
        "stopvideo":"",
@@ -504,7 +503,7 @@ module.exports = [  /** Mufti **/
             "duration":10
         },
         "audio":{
-            "id": "5", //05mufti.mp3",
+            "id": "14", //05mufti.mp3",
             "startdelay":"",
             "duration":"",
             "untilfinish":true,
@@ -556,7 +555,7 @@ module.exports = [  /** Mufti **/
     },
     {
        "frame":"stoploop",
-       "reader":14,
+       "reader":6,
        "stoplamp":"",
        "stopaudio":true,
        "stopvideo":"",
@@ -607,7 +606,7 @@ module.exports = [  /** Mufti **/
             "duration":""
         },
         "audio":{
-            "id":"6", //06mufti.mp3",
+            "id":"14", //06mufti.mp3",
             "startdelay":"",
             "duration":"",
             "untilfinish":true
