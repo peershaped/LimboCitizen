@@ -9,7 +9,6 @@ var keyPress = require('./keypress');
 var storylinedir = 'storylines';
 var	tags = require('./tags');
 
-
 // contains an array with storylines for all storylines
 var debug = false;
 
@@ -393,7 +392,6 @@ function cardreaderListenerUp(UDPPORT, HOST){
 		
 		// haal uniek id op van het pasje
 		input.tagId = message.toString('hex',0,4);
-		logVerbose('Tag id : ' +input.tagId);
 
 		// is het unieke id niet gekoppeld aan huidig verhaallijn
 		// return en doe niets
@@ -403,7 +401,6 @@ function cardreaderListenerUp(UDPPORT, HOST){
 
 		// scanner id
 		input.readerId = message.toString('hex',4,5);
-		logVerbose('Reader id : ' +input.readerId);
 
 		// haal op basis van het tagid de verhaallijn 'index' op
 		var storylineIndex = tags[input.tagId];
@@ -445,19 +442,34 @@ function wrongScanned(){
  * Initializes Storyline
  */
 function initStoryline(){
-	http.get('http://'+MP3PLAYERIP+':'+MP3PLAYERPORT+'/stop').on('error', function(err) {
-
-	}).on('error', function(err){
-		logVerbose()
-		handleError(err);
-	});
-
-	setTimeout(function(){
-		logVerbose('Kickoff first frame');
-		logVerbose('* ----------------------------- *')
-		series({frame:STORYLINE.shift(), input:{}, storylineIndex: 0});
-	},1000);
+	console.log('initStoryline');
+	http.get(
+		{
+			host: MP3PLAYERIP,
+			path: '/stop',
+			port: MP3PLAYERPORT,
+			agent: false,
+			headers:
+			{
+				"Connection":'keep-alive'
+			}
+		},  function(response){
+			response.on('data', function(d) {});
+			response.on('end', function() {
+				logVerbose('Stopped currently playing audio');
+				logVerbose('Wait one second');
+				setTimeout(function(){
+					logVerbose('Kickoff first frame');
+					logVerbose('* ----------------------------- *')
+					series({frame:STORYLINE.shift(), input:{}, storylineIndex: 0});
+				},1000);
+			});
+		}).on('error', function(err) {
+			logVerbose('error on audio service');
+			handleError(err);
+		});
 }
+
 
 /**
  * Handles error
