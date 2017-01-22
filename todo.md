@@ -1,0 +1,8 @@
+- laptop.js aanpassen
+- videoservices testen
+- in kaart brengen welke serial poorten de verschillende raspberries gebruiken
+- Light services testen
+- Verhaallijnen toevoegen
+- Ip adressen voor de mp3 spelers in een aparte array zetten
+- Alle verwijzingen naar Bahaa veranderen naar Rabi
+- Passen koppelen aan verhaallijnen

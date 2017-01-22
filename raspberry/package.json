@@ -1,0 +1,22 @@
+{
+  "name": "limbo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Raspberrypi1.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mplayer": "^2.0.1",
+    "node-aplay": "^1.0.3",
+    "omx-manager": "0.0.3",
+    "player": "^0.6.1",
+    "serialport": "^2.1.0",
+    "cors": "^2.8.1",
+    "forever-monitor": "^1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

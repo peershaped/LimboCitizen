@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base href="/">
+        <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="assets/css/main.css"  media="screen,projection"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+                <div class="container">
+                    <a href="#!" class="brand-logo"></a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li class="active"><a class="link-raspberry" data-raspberry="controlpanel" href="index.html">Control Panel</a></li>
+                        <li><a class="link-raspberry" data-raspberry="raspberry1" href="index.html">Raspberry Blauw</a></li>
+                        <li><a class="link-raspberry" data-raspberry="raspberry2" href="index.html">Raspberry Rood</a></li>
+                        <li><a class="link-raspberry" data-raspberry="raspberry3" href="index.html">Raspberry Geel</a></li>
+                        <li><a class="link-raspberry" data-raspberry="raspberry4" href="index.html">Raspberry Grijs</a></li>
+                        <li><a class="link-raspberry" data-raspberry="raspberry5" href="index.html">Raspberry Peer</a></li>
+                        <li><a class="floorplan" href="index.html">Floorplan</a></li>
+                        <li><a class="docs" href="index.html">Docs</a></li>
+                    </ul>
+                </div>
+                <ul class="side-nav" id="mobile-demo">
+                    <li>Limbo Citizen</li>
+                    <li>-------------</li>
+                    <li class="active"><a class="link-raspberry" data-raspberry="controlpanel" href="index.html">Control Panel</a></li>
+                    <li><a class="link-raspberry" data-raspberry="raspberry1" href="index.html">Raspberry Blauw</a></li>
+                    <li><a class="link-raspberry" data-raspberry="raspberry2" href="index.html">Raspberry Rood</a></li>
+                    <li><a class="link-raspberry" data-raspberry="raspberry3" href="index.html">Raspberry Geel</a></li>
+                    <li><a class="link-raspberry" data-raspberry="raspberry4" href="index.html">Raspberry Grijs</a></li>
+                    <li><a class="link-raspberry" data-raspberry="raspberry6" href="index.html">Raspberry Peer</a></li>
+                    <li><a class="floorplan" href="index.html">Floorplan</a></li>
+                    <li><a class="docs" href="index.html">Docs</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="result"></div>
+            <!--<a class="btn" onclick="">Toast!</a>-->
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s2">
+                    <div class="status status-raspberry1"></div>
+                </div>
+                <div class="col s2">
+                    <div class="status status-raspberry2"></div>
+                </div>
+                <div class="col s2">
+                    <div class="status status-raspberry3"></div>
+                </div>
+                <div class="col s2">
+                    <div class="status status-raspberry4"></div>
+                </div>
+                <div class="col s2">
+                    <div class="status status-raspberry5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main" class="container">
+
+        </div>
+        
+        <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/js/materialize.min.js"></script>
+        <script>
+
+            var index = 'controlpanel',
+                data = {
+                'controlpanel' : {
+                    'template' : 'controlpanel.html',
+                    'ipaddress' : 'localhost', // 'localhost',
+                    'port' : '8082',
+                    'title' : '',
+                    'subtitle' : 'Controlpanel',
+                    'status' : {
+                        'bena' : '',
+                        'juhi' : '',
+                        'rabi' : '',
+                        'mufti' : ''
+                    }
+                },
+                'raspberry1' : {
+                    'template' : 'raspberry.html',
+                    'ipaddress': '192.168.2.150',
+                    'port': '3000',
+                    'title' : '',
+                    'subtitle' : 'Raspberry Blauw',
+                    'status' : {
+                        'lightservice' : '',
+                        'videoservice' : ''
+                    }
+                },
+                 'raspberry2' : {
+                    'template' : 'raspberry.html',
+                    'ipaddress': '192.168.2.151',
+                    'port': '3000',
+                    'title' : '',
+                    'subtitle' : 'Raspberry Rood',
+                    'status' : {
+                        'lightservice' : '',
+                        'videoservice' : ''
+                    }
+                },
+                 'raspberry3' : {
+                    'template' : 'raspberry.html',
+                    'ipaddress': '192.168.2.152',
+                    'port': '3000',
+                    'title' : '',
+                    'subtitle' : 'Raspberry Geel',
+                    'status' : {
+                        'lightservice' : '',
+                        'videoservice' : ''
+                    }
+                },
+                 'raspberry4' : {
+                    'template' : 'raspberry.html',
+                    'ipaddress': '192.168.2.153',
+                    'port': '3000',
+                    'title' : '',
+                    'subtitle' : 'Raspberry Grijs',
+                    'status' : {
+                        'lightservice' : '',
+                        'videoservice' : ''
+                    }
+                },
+                'raspberry5' : {
+                    'template' : 'raspberry.html',
+                    'ipaddress': '192.168.2.154',
+                    'port': '3000',
+                    'title' : '',
+                    'subtitle' : 'Raspberry Peer',
+                    'status' : {
+                        'lightservice' : '',
+                        'videoservice' : ''
+                    }
+                }
+            }
+
+            $(function(){
+                $(".button-collapse").sideNav();
+                $('#main').load(data['controlpanel'].template);                
+               
+                hartbeat();
+                
+
+                $('.link-raspberry').on('click', function(e){
+                    e.preventDefault();
+
+                    index = $(this).data('raspberry');
+
+                    $('#main').load(data[index].template, function(){
+                        $('.subtitle').html(data[index].subtitle);
+                    });
+                    
+                    $('.nav-wrapper li').removeClass('active');
+                    
+                    $(this).parent().addClass('active');
+                });
+
+                $('.floorplan').on('click', function(e){
+                    e.preventDefault();
+                    $('#main').load('floorplan.html', function(){ });
+                    $('.nav-wrapper li').removeClass('active');
+                    $(this).parent().addClass('active');
+                });
+
+                $('.docs').on('click', function(e){
+                    e.preventDefault();
+                    $('#main').load('docs.html', function(){ });
+                    $('.nav-wrapper li').removeClass('active');
+                    $(this).parent().addClass('active');
+                });
+               
+                $(document).on('change', '#confirm-poweroff', function(){
+                    if($(this)[0].checked)
+                    {
+                        $('#poweroff-button').removeClass('disabled');
+                    }
+                    else
+                    {
+                        $('#poweroff-button').addClass('disabled');
+                    }
+                });
+
+                $(document).on('change','#confirm-restart', function(){
+                    if($(this)[0].checked)
+                    {
+                        $('#restart-button').removeClass('disabled');
+                    }
+                    else
+                    {
+                        $('#restart-button').addClass('disabled');
+                    }
+                });
+
+                $(document).on('click','#poweroff-button', function(e){
+                    e.preventDefault();
+                    if($(this).hasClass('disabled'))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        makeGetRequest(index,'/poweroff');
+                        
+                    }
+                });
+
+                $(document).on('click', '#restart-button', function(e){
+                    e.preventDefault();
+                    if($(this).hasClass('disabled'))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        makeGetRequest(index,'/restart');                        
+                    }
+                });
+
+                $(document).ready(function(){
+                    $('.scrollspy').scrollSpy();
+                });
+
+               
+
+                // Delegator
+                $(document).on('click', '#start-delegator', function(){
+                    makeGetRequest('controlpanel', '/start/delegator');
+                });
+                $(document).on('click', '#stop-delegator', function(){
+                    makeGetRequest('controlpanel', '/stop/delegator');
+                });
+                $(document).on('click', '#reset-delegator', function(){
+                    makeGetRequest('controlpanel', '/reset/delegator');
+                });
+                
+                // reset storylines (WERKT NOG NIET);
+                $(document).on('click', '#reset-rabi', function(){
+                    makeGetRequest('controlpanel', '/reset/rabi');
+                });
+
+                $(document).on('click', '#reset-juhi', function(){
+                    makeGetRequest('controlpanel', '/reset/juhi');
+                });
+
+                $(document).on('click', '#reset-bena', function(){
+                    makeGetRequest('controlpanel', '/reset/bena');
+                });
+
+                $(document).on('click', '#reset-mufti', function(e){
+                    makeGetRequest('controlpanel', '/reset/mufti');
+                })
+
+                // start storylines
+                $(document).on('click', '#start-rabi', function(){
+                    makeGetRequest('controlpanel', '/start/rabi');
+                });
+
+                $(document).on('click', '#start-juhi', function(){
+                    makeGetRequest('controlpanel', '/start/juhi');
+                });
+
+                $(document).on('click', '#start-bena', function(){
+                    makeGetRequest('controlpanel', '/start/bena');
+                });
+
+                $(document).on('click', '#start-mufti', function(){
+                    makeGetRequest('controlpanel', '/start/mufti');
+                })
+
+                // stop storylines
+                $(document).on('click', '#stop-rabi', function(){
+                    makeGetRequest('controlpanel', '/stop/rabi');
+                });
+
+                $(document).on('click', '#stop-juhi', function(){
+                    makeGetRequest('controlpanel', '/stop/juhi');
+                });
+
+                $(document).on('click', '#stop-bena', function(){
+                    makeGetRequest('controlpanel', '/stop/bena');
+                });
+
+                $(document).on('click', '#stop-mufti', function(){
+                    makeGetRequest('controlpanel', '/stop/mufti');
+                })
+
+                 // Light service
+                $(document).on('click', '#start-lightservice', function(){
+                    makeGetRequest(index, '/start/lightservice');
+                });
+                $(document).on('click', '#stop-lightservice', function(){
+                    makeGetRequest(index, '/stop/lightservice');
+                });
+                $(document).on('click', '#reset-lightservice', function(){
+                    makeGetRequest(index, '/reset/lightservice');
+                });
+
+                // Video Service
+                $(document).on('click', '#start-videoservice', function(){
+                    makeGetRequest(index, '/start/videoservice');
+                });
+                $(document).on('click', '#stop-videoservice', function(){
+                    makeGetRequest(index, '/stop/videoservice');
+                });
+                $(document).on('click', '#reset-videoservice', function(){
+                    makeGetRequest(index, '/reset/videoservice');
+                });
+
+
+                function makeGetRequest(index, path){
+                    var req = $.get('http://' + data[index].ipaddress + ':' + data[index].port + path, function(ddata) {
+                        Materialize.toast(ddata.message, 4500);
+                    });
+
+                    // just in case abort after 1500 ms
+                    setTimeout(function(){
+                        req.abort();
+                    },1500);
+                }
+
+                setInterval(function(){
+                    hartbeat();
+                }, 8000)
+
+                function hartbeat(){
+                    $.each(data, function(index, element){
+                        $.ajax({
+                            method: 'GET',
+                            url : 'http://' +element.ipaddress + ':' + element.port + '/hartbeat',
+                        })
+                        .done(function(data, more){
+                            //Materialize.toast(data.message, 4500);
+                            $('.status-'+index).html(element.subtitle + ' is online').removeClass('offline');
+                        })
+                        .fail(function(data, more){
+                            $('.status-'+index).html(element.subtitle + ' is offline').addClass('offline');
+                            //Materialize.toast(element.subtitle + 'is not online', 4000);
+                        });
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
