@@ -31,11 +31,11 @@ client = dgram.createSocket('udp4');
 function cardreaderListenerUp(){
 	cardreadeListener = dgram.createSocket('udp4');
 	cardreadeListener.on('listening', function () {
-	    console.log('listening for cardreaders on ' + HOST + ' : '+ LISTENINGPORT);
+	    console.log('Delegator: Listening for cardreaders on ' + HOST + ' : '+ LISTENINGPORT);
 	});
 
     cardreadeListener.on('message', function (message, rinfo) {
-        console.log(`received`);
+        console.log(`Delegator : message received`);
         // console.log(message);
 		// var tagId = message.toString('hex',0,4);
 		// var storylineIndex = tags[tagId];
