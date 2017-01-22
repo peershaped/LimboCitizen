@@ -144,6 +144,25 @@
                 }
             }
 
+            var mp3players = {
+                'bena' : {
+                    ipaddress : '192.168.2.170',
+                    port: '80'
+                },
+                'juhi' : {
+                    ipaddress : '192.168.2.171',
+                    port: '80'
+                },
+                'rabi' : {
+                    ipaddress : '192.168.2.172',
+                    port: '80'
+                },
+                'mufti' : {
+                    ipaddress : '192.168.2.173',
+                    port: '80'
+                }
+            }
+
             $(function(){
                 $(".button-collapse").sideNav();
                 $('#main').load(data['controlpanel'].template);                
@@ -316,6 +335,28 @@
                     makeGetRequest(index, '/reset/videoservice');
                 });
 
+                // STOP AUDIO
+                $(document).on('click', '#stop-audio-bena', function(){
+                    stopAudio('bena', '/stop');
+                });
+                 // STOP AUDIO
+                $(document).on('click', '#stop-audio-juhi', function(){
+                    stopAudio('juhi', '/stop');
+                });
+                 // STOP AUDIO
+                $(document).on('click', '#stop-audio-rabi', function(){
+                    stopAudio('rabi', '/stop');
+                });
+                 // STOP AUDIO
+                $(document).on('click', '#stop-audio-mufti', function(){
+                    stopAudio('mufti', '/stop');
+                });
+
+                function stopAudio(index, path){
+                    var req = $.get('http://' + mp3players[index].ipaddress + ':' + mp3players[index].port + path, function(ddata) {
+                        Materialize.toast(ddata.message, 4500);
+                    });
+                }
 
                 function makeGetRequest(index, path){
                     var req = $.get('http://' + data[index].ipaddress + ':' + data[index].port + path, function(ddata) {
