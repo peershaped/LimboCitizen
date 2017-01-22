@@ -110,6 +110,37 @@ var	currentStoryPartBusy = false;
 
 var audio = null;
 
+// var storypartobject = function(){
+// 	this.lamp = 0;
+// 	this.audio = 0;
+// 	this.video = 0;
+// 	this.numpad = 0;
+
+// 	this.setLamp = function(number){
+// 		this.lamp = number;
+// 	}
+
+// 	this.getLamp = function(number){
+// 		this.lamp = number;
+// 	}
+
+// 	this.setAudio = function(){
+
+// 	}
+// 	this.getAudio = function(){
+
+// 	}
+
+// }
+
+var stateObject = {
+	'lamp':0,
+	'audio':0,
+	'video':0,
+	'numpad':0
+};
+
+
 // get the storyline at specified location 
 // console.log(`running storyline ${process.argv[2]}`)
 
@@ -128,12 +159,7 @@ function asyncFunc(storypart, callback)
 		'video':0,
 		'numpad':0
 	};
-	var stateObject = {
-		'lamp':0,
-		'audio':0,
-		'video':0,
-		'numpad':0
-	};
+	
 
 	// handle pause frames.
 	if(storypartobject.hasOwnProperty('pause'))
@@ -223,6 +249,7 @@ function asyncFunc(storypart, callback)
 	// handle audio
 	if(storypartobject.audio.id != '' || storypartobject.stopaudio === true)
 	{
+		
 		stateObject.audio = 1;
 		var audioPath = '';
 
@@ -251,14 +278,40 @@ function asyncFunc(storypart, callback)
 			});
             
 			response.on('end', function() {
+
+				console.log(callback);
+				console.log('status.code = ' + response.statusCode);
+
 				// Handle busy message
-				if(response.statusCode == 422)
+				// if(response.statusCode == 422)
+				// {
+				// 	logVerbose('Audio is busy : Play audio file telling the user should wait');
+				// }
+
+				if(response.statusCode == 201)
 				{
-					logVerbose('Audio is busy : Play audio file telling the user should wait');
+					var timer = setInterval(function(callback){
+
+						console.log(callback);
+
+						logVerbose('Waiting for  end received ');
+						if(stateObject.audio == 0) {
+							// break out this function and callback
+							logVerbose('Audio end received ');
+
+							if(stateObject.lamp == 0 && stateObject.audio == 0 && stateObject.video == 0)
+							{
+								console.log('storyline busy = false');
+								// callback(storypart);
+								clearInterval(timer);
+
+							}
+						}
+					}, 200);
 				}
 
 				logVerbose('Audio end received ');
-				// set stateObject.audio to 0
+				// // set stateObject.audio to 0
 				stateObject.audio = 0;
 				
 				// if status code == 200
@@ -267,12 +320,26 @@ function asyncFunc(storypart, callback)
 					//console.log('storyline busy = false');
 					callback(storypart);
 				}
+				
+				
+				// if(response.statusCode == 200)
+				// {
+				// 	logVerbose('Loop is gestart');
+				// 	stateObject.audio == 0;
+				// 	if(stateObject.lamp == 0 && stateObject.audio == 0 && stateObject.video == 0)
+				// 	{
+				// 		//console.log('storyline busy = false');
+				// 		logVerbose('Audio end received ');
+				// 		callback(storypart);
+				// 	}
+				// }
 			});
 		}).on('error', function(err) {
 			logVerbose('error on audio service');
 			handleError(err);
 		});
 	}
+
 
 	// handle video
 	if(storypartobject.video.beamer != ''){
@@ -361,7 +428,6 @@ function series(storypart)
   	}
 	else
 	{
-    	
 		return final();
  	}
 }
@@ -371,7 +437,7 @@ function final() { logVerbose('All storylines have finished', finishedStoryparts
  
 // Deze functie luisterd naar binnenkomende berichten van delegator.js
 function cardreaderListenerUp(UDPPORT, HOST){
-
+	
 	// kicks off the first frame
 	initStoryline();
 
@@ -382,6 +448,37 @@ function cardreaderListenerUp(UDPPORT, HOST){
 	});
 
 	cardreadeListener.on('message', function (message, rinfo) {
+
+
+
+		// console.log(message.toString());
+
+		// identify incoming message
+		// if incoming message is playHasStopped message do something..
+		// get the stopped song (number)
+		// check if currentFrame.audio.id == the incoming id.
+		// set Audio end received to true
+		// kickof next frame.
+
+		// if(response.statusCode == 422)
+		// {
+		// 	logVerbose('Audio is busy : Play audio file telling the user should wait');
+		// }
+
+		// logVerbose('Audio end received ');
+		// stateObject.audio = 0;
+		
+		// if(stateObject.lamp == 0 && stateObject.audio == 0 && stateObject.video == 0)
+		// {
+		// 	callback(storypart);
+		// }
+		console.log(message);
+		var firstCharacter = message.toString('ascii',0,1);
+		console.log(firstCharacter);
+		if(firstCharacter == 'S'){
+			console.log('S');
+			 stateObject.audio = 0;
+		}
 
 		// instantiate an input object
 		// to pass around
@@ -401,11 +498,11 @@ function cardreaderListenerUp(UDPPORT, HOST){
 
 		// scanner id
 		input.readerId = message.toString('hex',4,5);
-
+		
 		// haal op basis van het tagid de verhaallijn 'index' op
 		var storylineIndex = tags[input.tagId];
 		input.storylineIndex = tags[input.tagId];
-		
+
 		// check of het verhaal verder mag
 		if(skipToNextPartAllowed() && readerIds[input.readerId] == nextReaderToScan)
 		{
